@@ -1,9 +1,13 @@
 package converter.parser;
 
 import io.vjattich.converter.YamlConverter;
-import io.vjattich.parser.ResourcesClassParser;
+import io.vjattich.parser.FileClassParser;
 import io.vjattich.parser.StringClassParser;
 import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.net.URISyntaxException;
+import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -165,9 +169,11 @@ public class YamlConverterTest {
     }
 
     @Test
-    void realClassTest() {
+    void realClassTest() throws URISyntaxException {
 
-        YamlConverter converter = new YamlConverter(new ResourcesClassParser("sample/test1/Test.java"));
+        File file = new File(Objects.requireNonNull(this.getClass().getClassLoader().getResource("sample/test1/Test.java")).toURI());
+
+        YamlConverter converter = new YamlConverter(new FileClassParser(file));
 
         assertThat(converter.convert()).isEqualTo(System.lineSeparator() +
                                                   "Test: " + System.lineSeparator() +
