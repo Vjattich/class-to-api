@@ -37,3 +37,8 @@ build/
 ### Mac OS ###
 .DS_Store
 /.idea/ClojureProjectResolveSettings.xml
+/.idea/.gitignore
+/.idea/encodings.xml
+/.idea/uiDesigner.xml
+/.idea/misc.xml
+/.idea/vcs.xml
