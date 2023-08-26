@@ -8,6 +8,7 @@ public class Main {
 
     public static void main(String[] args) {
 
+        //if none of files was given to program
         if (args.length == 0) {
             throw new RuntimeException("You should put an arguments to program");
         }
@@ -19,7 +20,8 @@ public class Main {
         System.out.println(
                 new YamlConverter(
                         new FileClassParser(
-                                new FileSearcher(filePath).search())
+                                new FileSearcher(filePath)
+                        )
                 ).convert()
         );
     }

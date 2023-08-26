@@ -17,6 +17,7 @@ public class YamlConverter implements Converter {
     @Override
     public String convert() {
 
+        //parse a class
         List<ClassModel> parsedClasses = parser.parse();
 
         StringBuilder stringBuilder = new StringBuilder();
@@ -50,11 +51,11 @@ public class YamlConverter implements Converter {
         }
         if (field.type.equals("long") || field.type.equals("Long") || field.type.equals("BigInteger")) {
             return "   " + "type" + ": " + "integer" + System.lineSeparator() +
-                   "   " + "format" + ": " + "int64" + System.lineSeparator();
+                    "   " + "format" + ": " + "int64" + System.lineSeparator();
         }
         if (field.type.equals("BigDecimal") || field.type.equals("double") || field.type.equals("Double")) {
             return "   " + "type" + ": " + "integer" + System.lineSeparator() +
-                   "   " + "format" + ": " + "int64" + System.lineSeparator();
+                    "   " + "format" + ": " + "int64" + System.lineSeparator();
         }
         if (field.type.equals("String")) {
             return "   " + "type" + ": " + "string" + System.lineSeparator();
@@ -64,16 +65,16 @@ public class YamlConverter implements Converter {
         }
         if (field.type.equals("Date") || field.type.equals("LocalDate")) {
             return "   " + "type" + ": " + "string" + System.lineSeparator() +
-                   "   " + "format" + ": " + "date" + System.lineSeparator();
+                    "   " + "format" + ": " + "date" + System.lineSeparator();
         }
         if (field.type.equals("LocalDateTime")) {
             return "   " + "type" + ": " + "string" + System.lineSeparator() +
-                   "   " + "format" + ": " + "date-time" + System.lineSeparator();
+                    "   " + "format" + ": " + "date-time" + System.lineSeparator();
         }
         if (field.type.equals("List") || field.type.equals("Set")) {
             return "   " + "type" + ": " + "array" + System.lineSeparator() +
-                   "   " + "items" + ": " + System.lineSeparator() +
-                   " " + getType(field.subType);
+                    "   " + "items" + ": " + System.lineSeparator() +
+                    " " + getType(field.subType);
         }
 
         return "   " + "$ref: '#/components/schemas/" + field.type + "'" + System.lineSeparator();
