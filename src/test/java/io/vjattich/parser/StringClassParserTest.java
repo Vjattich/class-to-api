@@ -1,8 +1,8 @@
-package converter.parser;
+package io.vjattich.parser;
 
-import io.vjattich.parser.StringClassParser;
 import io.vjattich.parser.model.ClassModel;
 import io.vjattich.parser.model.FieldModel;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -13,6 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class StringClassParserTest {
 
     @Test
+    @DisplayName("parse a simple class")
     void oneFieldTest() {
         StringClassParser stringClassParser = new StringClassParser("class A {private int z = 0;}");
 
@@ -22,6 +23,7 @@ public class StringClassParserTest {
     }
 
     @Test
+    @DisplayName("parse a class with different field types")
     void manyFieldsTest() {
         StringClassParser stringClassParser = new StringClassParser("""
                 class ABC {
@@ -67,6 +69,7 @@ public class StringClassParserTest {
     }
 
     @Test
+    @DisplayName("parse a class with inner class in it")
     void innerClassTest() {
 
         StringClassParser stringClassParser = new StringClassParser("""

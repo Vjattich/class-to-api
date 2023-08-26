@@ -15,12 +15,14 @@ public class FileSearcher implements Searcher {
     @Override
     public File search() {
 
+        //was given a full path to the class
         File file = new File(filePath);
 
         if (file.exists()) {
             return file;
         }
 
+        //if class lies near the running jar
         File jarPath = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath());
         File fileNearJar = new File(jarPath.getParentFile().getAbsolutePath() + File.separator + filePath);
 
