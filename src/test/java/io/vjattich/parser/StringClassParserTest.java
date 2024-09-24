@@ -104,4 +104,44 @@ public class StringClassParserTest {
                 );
     }
 
+    @Test
+    @DisplayName("parse a class with link class in it")
+    void linkClassTest() {
+
+        StringClassParser stringClassParser = new StringClassParser("""
+                  
+                  import java.time.LocalDate;
+                  
+                  public class Test {
+                      protected MOLines molines;
+                      protected LocalDate packageDateTime;
+                      protected String packageId;
+                  }
+                  
+                  public class MOLines {
+                      protected MOLine moline;
+                  }
+                """);
+
+        assertThat(stringClassParser.parse())
+                .containsAll(
+                        List.of(
+                                new ClassModel()
+                                        .setName("Test")
+                                        .setFields(
+                                                List.of(
+                                                        new FieldModel().setName("molines").setType("MOLines"),
+                                                        new FieldModel().setName("packageDateTime").setType("LocalDate"),
+                                                        new FieldModel().setName("packageId").setType("String")
+                                                )
+                                        ),
+                                new ClassModel()
+                                        .setName("MOLines")
+                                        .setFields(
+                                                List.of(new FieldModel().setName("moline").setType("MOLine"))
+                                        )
+                        )
+                );
+    }
+
 }

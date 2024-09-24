@@ -7,6 +7,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -179,9 +183,9 @@ public class YamlConverterTest {
         YamlConverter converter = new YamlConverter(new FileClassParser(
                 new Searcher() {
                     @Override
-                    public File search() {
+                    public List<File> search() {
                         try {
-                            return new File(Objects.requireNonNull(this.getClass().getClassLoader().getResource("sample/test1/Test.java")).toURI());
+                            return Collections.singletonList(new File(Objects.requireNonNull(this.getClass().getClassLoader().getResource("sample/test1/Test.java")).toURI()));
                         } catch (Exception e) {
                             throw new RuntimeException(e);
                         }
@@ -383,6 +387,231 @@ public class YamlConverterTest {
                 "   type: string" + System.lineSeparator() +
                 "  supAccount: " + System.lineSeparator() +
                 "   type: string" + System.lineSeparator());
+    }
+
+    @Test
+    @DisplayName("convert list of files")
+    void converListFiles() {
+        //GIVEN
+        YamlConverter converter = new YamlConverter(
+                new FileClassParser(
+                        new Searcher() {
+                            @Override
+                            public List<File> search() {
+                                try {
+                                    URL resource = Objects.requireNonNull(this.getClass().getClassLoader().getResource("sample/test2"));
+                                    File[] files = Objects.requireNonNull(new File(resource.toURI()).listFiles());
+                                    return Arrays.asList(files);
+                                } catch (Exception e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                        }
+                )
+        );
+
+        //WHEN
+        String result = converter.convert();
+
+        //THEN
+        assertThat(result).isEqualToIgnoringNewLines(
+                """
+               
+               DetailsDocuments:\s
+                type: object
+                properties:\s
+                 detailsDocument:\s
+                  $ref: '#/components/schemas/DetailsDocument'
+                 stage:\s
+                  $ref: '#/components/schemas/Stage'
+                 codeSubs:\s
+                  type: string
+                 bonumber:\s
+                  type: string
+                 advances:\s
+                  $ref: '#/components/schemas/Advances'
+                 docSubject:\s
+                  type: string
+                 kbkline:\s
+                  $ref: '#/components/schemas/KBKline'
+                 sumLine:\s
+                  type: integer
+                  format: int64
+                 sumRestraint:\s
+                  type: integer
+                  format: int64
+               Advances:\s
+                type: object
+                properties:\s
+                 signAdvance:\s
+                  type: string
+                 percentageAdvance:\s
+                  type: string
+                 sumAdvance:\s
+                  type: integer
+                  format: int64
+                 codeAIP:\s
+                  type: string
+                 sumCredit:\s
+                  type: integer
+                  format: int64
+               DetailsDocument:\s
+                type: object
+                properties:\s
+                 docType:\s
+                  type: string
+                 docNumber:\s
+                  type: string
+                 docDate:\s
+                  type: string
+                  format: date
+                 docAmount:\s
+                  type: integer
+                  format: int64
+                 docID:\s
+                  type: string
+               KBKline:\s
+                type: object
+                properties:\s
+                 grbs:\s
+                  type: string
+                 functional:\s
+                  type: string
+                 purpose:\s
+                  type: string
+                 expense:\s
+                  type: string
+                 economic:\s
+                  type: string
+                 kvfo:\s
+                  type: string
+                 sbo:\s
+                  type: string
+               Stage:\s
+                type: object
+                properties:\s
+                 planEndDate:\s
+                  type: string
+                  format: date
+                 planEndSum:\s
+                  type: integer
+                  format: int64
+                 sid:\s
+                  type: string
+                 externalSid:\s
+                  type: string
+               MOLines:\s
+                type: object
+                properties:\s
+                 moline:\s
+                  $ref: '#/components/schemas/MOLine'
+                 detailsDocuments:\s
+                  $ref: '#/components/schemas/DetailsDocuments'
+                 supplier:\s
+                  $ref: '#/components/schemas/Supplier'
+                 specifications:\s
+                  $ref: '#/components/schemas/Specifications'
+                 fz:\s
+                  type: string
+               MOLine:\s
+                type: object
+                properties:\s
+                 pid:\s
+                  type: string
+                 ordCount:\s
+                  type: integer
+                  format: int64
+                 monumber:\s
+                  type: string
+                 modate:\s
+                  type: string
+                  format: date
+                 innOwner:\s
+                  type: string
+                 cppOwner:\s
+                  type: string
+                 account:\s
+                  type: string
+                 numAgr:\s
+                  type: string
+                 dateAgr:\s
+                  type: string
+                  format: date
+                 sumAgr:\s
+                  type: integer
+                  format: int64
+                 ikz:\s
+                  type: string
+                 registryNumberEIS:\s
+                  type: string
+                 mofio:\s
+                  type: string
+                 signCancellation:\s
+                  type: string
+                 oldNumber:\s
+                  type: string
+               Supplier:\s
+                type: object
+                properties:\s
+                 name:\s
+                  type: string
+                 inn:\s
+                  type: string
+                 kpp:\s
+                  type: string
+                 bankName:\s
+                  type: string
+                 bik:\s
+                  type: string
+                 korrS:\s
+                  type: string
+                 rs:\s
+                  type: string
+                 supAccount:\s
+                  type: string
+               Specification:\s
+                type: object
+                properties:\s
+                 specificationId:\s
+                  type: string
+                 sid:\s
+                  type: string
+                 productionName:\s
+                  type: string
+                 productionPrice:\s
+                  type: integer
+                  format: int64
+                 amount:\s
+                  type: string
+                 summ:\s
+                  type: integer
+                  format: int64
+                 oksmcode:\s
+                  type: string
+                 okeicode:\s
+                  type: string
+                 ktrucode:\s
+                  type: string
+                 ktruname:\s
+                  type: string
+               Specifications:\s
+                type: object
+                properties:\s
+                 specification:\s
+                  type: array
+                  items:\s
+                   $ref: '#/components/schemas/Specification'
+               Test:\s
+                type: object
+                properties:\s
+                 molines:\s
+                  $ref: '#/components/schemas/MOLines'
+                 packageDateTime:\s
+                  type: string
+                 packageId:\s
+                  type: string
+                """
+        );
     }
 
 
