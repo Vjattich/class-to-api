@@ -30,4 +30,8 @@ public class ClassModel {
         return Objects.hash(name, fields);
     }
 
+    @Override
+    public String toString() {
+        return "ClassModel{name='" + name + '\'' + ", fields=" + fields + '}';
+    }
 }

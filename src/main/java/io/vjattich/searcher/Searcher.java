@@ -1,9 +1,10 @@
 package io.vjattich.searcher;
 
 import java.io.File;
+import java.util.List;
 
 public interface Searcher {
 
-    File search();
+    List<File> search();
 
 }

@@ -1,5 +1,6 @@
 package io.vjattich.parser;
 
+import io.vjattich.cleaner.StringClassCleaner;
 import io.vjattich.parser.model.ClassModel;
 import io.vjattich.searcher.Searcher;
 
@@ -19,15 +20,21 @@ public class FileClassParser implements ClassParser {
     @Override
     public List<ClassModel> parse() {
 
-        //try to search the file
-        File search = searcher.search();
+        //try to files the file
+        List<File> files = searcher.search();
 
-        try (FileInputStream is = new FileInputStream(search)) {
-            //convert file to a string and parse
-            return new StringClassParser(new String(Objects.requireNonNull(is.readAllBytes()))).parse();
-        } catch (Exception e) {
-            throw new RuntimeException("something went wrong while class load", e);
+        String stringClazz = System.lineSeparator();
+
+        for (File file : files) {
+            try (FileInputStream is = new FileInputStream(file)) {
+                //convert file to a string and parse
+                stringClazz = stringClazz + System.lineSeparator() + new String(Objects.requireNonNull(is.readAllBytes()));
+            } catch (Exception e) {
+                throw new RuntimeException("something went wrong while class load", e);
+            }
         }
+
+        return new StringClassParser(new StringClassCleaner(stringClazz).clean()).parse();
     }
 
 }

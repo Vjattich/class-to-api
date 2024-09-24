@@ -34,4 +34,9 @@ public class FieldModel {
     public int hashCode() {
         return Objects.hash(name, type);
     }
+
+    @Override
+    public String toString() {
+        return "FieldModel{name='" + name + '\'' + ", type='" + type + '\'' + ", subType=" + subType + '}';
+    }
 }
