@@ -20,21 +20,21 @@ public class FileClassParser implements ClassParser {
     @Override
     public List<ClassModel> parse() {
 
-        //try to files the file
+        //try to search the files
         List<File> files = searcher.search();
 
-        String stringClazz = System.lineSeparator();
+        StringBuilder stringClazz = new StringBuilder(System.lineSeparator());
 
         for (File file : files) {
             try (FileInputStream is = new FileInputStream(file)) {
                 //convert file to a string and parse
-                stringClazz = stringClazz + System.lineSeparator() + new String(Objects.requireNonNull(is.readAllBytes()));
+                stringClazz.append(System.lineSeparator()).append(new String(Objects.requireNonNull(is.readAllBytes())));
             } catch (Exception e) {
                 throw new RuntimeException("something went wrong while class load", e);
             }
         }
 
-        return new StringClassParser(new StringClassCleaner(stringClazz).clean()).parse();
+        return new StringClassParser(new StringClassCleaner(stringClazz.toString()).clean()).parse();
     }
 
 }
