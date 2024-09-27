@@ -23,6 +23,7 @@ public class StringClassParser implements ClassParser {
 
     @Override
     public List<ClassModel> parse() {
+        StaticJavaParser.setConfiguration(new Prs());
         return parse(StaticJavaParser.parse(stringClazz));
     }
 
