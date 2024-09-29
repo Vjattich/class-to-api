@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.vjattich</groupId>
-    <artifactId>code-api-converter</artifactId>
+    <artifactId>class-to-api-converter</artifactId>
     <version>1.0</version>
 
     <properties>
@@ -14,7 +14,6 @@
         <junit.jupiter.version>5.8.1</junit.jupiter.version>
         <maven.compiler.source>23</maven.compiler.source>
         <maven.compiler.target>23</maven.compiler.target>
-        <imageName>class-to-api-converter</imageName>
         <mainClass>io.vjattich.Main</mainClass>
     </properties>
 
@@ -66,7 +65,7 @@
 
                         <configuration>
                             <fallback>false</fallback>
-                            <imageName>${imageName}</imageName>
+                            <imageName>${project.artifactId}</imageName>
                         </configuration>
                     </plugin>
                 </plugins>
