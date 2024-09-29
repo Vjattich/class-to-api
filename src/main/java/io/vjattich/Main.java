@@ -4,6 +4,10 @@ import io.vjattich.converter.YamlConverter;
 import io.vjattich.parser.FileClassParser;
 import io.vjattich.searcher.FileSearcher;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -13,17 +17,31 @@ public class Main {
             throw new RuntimeException("You should put an arguments to program");
         }
 
-        convertFileToApi(args[0]);
+        convertFileToApi(new Args(args));
     }
 
-    private static void convertFileToApi(String filePath) {
-        System.out.println(
-                new YamlConverter(
-                        new FileClassParser(
-                                new FileSearcher(filePath)
-                        )
-                ).convert()
+    private static void convertFileToApi(Args arguments) {
+
+        YamlConverter converter = new YamlConverter(
+                new FileClassParser(
+                        new FileSearcher(arguments.getFilePath())
+                )
         );
+
+        String convertClazz = converter.convert();
+
+        if (arguments.hasOutput()) {
+
+            try {
+                Files.write(Paths.get(arguments.getOutput()), convertClazz.getBytes());
+            } catch (IOException e) {
+                throw new RuntimeException("Something went wrong while writing content to file", e);
+            }
+
+        } else {
+            System.out.println(convertClazz);
+        }
+
     }
 
 }

@@ -53,9 +53,12 @@ public class YamlConverter implements Converter {
             return "   " + "type" + ": " + "integer" + System.lineSeparator() +
                     "   " + "format" + ": " + "int64" + System.lineSeparator();
         }
-        if (field.type.equals("BigDecimal") || field.type.equals("double") || field.type.equals("Double")) {
-            return "   " + "type" + ": " + "integer" + System.lineSeparator() +
-                    "   " + "format" + ": " + "int64" + System.lineSeparator();
+        if (field.type.equals("BigDecimal")) {
+            return "   " + "type" + ": " + "number" + System.lineSeparator();
+        }
+        if (field.type.equals("double") || field.type.equals("Double")) {
+            return "   " + "type" + ": " + "number" + System.lineSeparator() +
+                    "   " + "format" + ": " + "double" + System.lineSeparator();
         }
         if (field.type.equals("String")) {
             return "   " + "type" + ": " + "string" + System.lineSeparator();
