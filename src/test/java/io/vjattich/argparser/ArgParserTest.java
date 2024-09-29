@@ -12,8 +12,8 @@
  */
 package io.vjattich.argparser;
 
-import java.io.*;
-
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.lang.reflect.Array;
 import java.util.Vector;
 
